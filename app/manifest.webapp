@@ -1,0 +1,17 @@
+{
+  "name": "RunRecorder",
+  "version": "0.2",
+  "description": "An awesome Firefox OS app",
+  "launch_path": "/index.html",
+  "icons": {
+    "60": "/icons/60x60.png",
+    "120": "/icons/120x120.png",
+    "128": "/icons/128x128.png"
+  },
+  "developer": {
+    "name": "developingo",
+    "url": "https://github.com/developingo"
+  },
+  "default_locale": "es"
+}
+

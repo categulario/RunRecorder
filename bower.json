@@ -1,0 +1,7 @@
+{
+	"name"   : "RunRecorder",
+	"version": "0.2.0",
+	"dependencies": {
+		"jquery"                   : "2.1.x"
+	}
+}

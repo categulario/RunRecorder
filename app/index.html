@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Run Recorder</title>
+		<!--
+		  Run Recorder <http://paul-lockett.co.uk/runrecorder> is copyright 2011, 2012, 2013 Paul Lockett
+
+		  You can redistribute and/or modify the code in this page under the terms of the GNU General Public License version 3 (GNU GPLv3) as published by the Free Software Foundation.
+		  The licence is available at <http://www.gnu.org/licenses/gpl-3.0.html>.
+		  The code is distributed WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+		  See the GNU GPL for more details.
+
+		  As an additional permission under GNU GPL version 3 section 7, you may distribute code without the copy of the GNU GPL normally required by section 4.
+
+		  >>> This application uses
+		  >>> Latitude/longitude spherical geodesy formulae & scripts
+		  >>> (c) Chris Veness 2002-2011
+		  >>> www.movable-type.co.uk/scripts/latlong.html
+		-->
+		<!-- version 2013-08-06 -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<link rel="icon" type="image/png" sizes="114x114" href="http://paul-lockett.co.uk/img/running-114.png" />
+		<link rel="icon" type="image/png" sizes="64x64" href="http://paul-lockett.co.uk/img/running-64.png" />
+		<link rel="icon" type="image/png" sizes="32x32" href="http://paul-lockett.co.uk/img/running-32.png" />
+		<link rel="icon" type="image/png" sizes="16x16" href="http://paul-lockett.co.uk/img/running-16.png" />
+		<link rel="apple-touch-icon-precomposed" href="http://paul-lockett.co.uk/img/running-114.png" />
+	</head>
+	<body>
+		<div id="topbar">
+		  <!--
+		  <ul>
+			<li><a href="http://paul-lockett.co.uk/">home</a></li>
+			<li><a href="http://paul-lockett.co.uk/contact.php">contact</a></li>
+			<li><a href="http://paul-lockett.co.uk/sitemap.html">sitemap</a></li>
+		  </ul>
+		  -->
+		</div>
+		<h1>Run Recorder - 2013-08-25</h1>
+		<div id="settingsholder" class="hidden">
+		  <p id="settingstitle">Settings</p>
+		  <p>Units to Use
+			<select id="unitchoice">
+			  <option value="miles">miles</option>
+			  <option value="kms">kms</option>
+			</select>
+		  </p>
+		  <p><label>Minimum GPS Accuracy for Recording <input id="accchoice" type="text" size="4"/> metres</label></p>
+		  <p><label>Minimum Time Gap Between Recorded Points <input type="text" id="gapchoice" size="4"/> seconds</label></p>
+		  <p>
+			<button type="button" id="settingssavebutton">Save</button>
+			<button type="button" id="settingscancelbutton">Cancel</button>
+		  </p>
+		</div>
+		<div id="infoholder">
+		  <p id="updateholder" class="hidden"></p>
+		  <p>
+			<button type="button" id="recordbutton" class="hidden">Start</button>
+			<button type="button" id="recorddisabled" disabled="disabled" class="hidden">Start</button>
+			<button type="button" id="stopbutton" class="hidden">Stop</button>
+			<button type="button" id="stopdisabled" disabled="disabled" class="hidden">Stop</button>
+			<button type="button" id="settingsbutton" class="hidden">Settings</button>
+			<button type="button" id="settingsdisabled" disabled="disabled" class="hidden">Settings</button>
+			<button type="button" id="exportbutton" class="hidden">Export</button>
+			<button type="button" id="exportdisabled" disabled="disabled" class="hidden">Export</button>
+		  </p>
+		  <div id="boxwrapper"></div>
+		  <p>Elapsed Time: <span id="time"></span></p>
+		  <p>Distance: <span id="flatdistance"></span><span id="flatunit"></span></p>
+		  <p>Average Pace: <span id="avpace"></span><span id="paceunit"></span></p>
+		  <p>Current Pace: <span id="speed"></span><span id="speedunit"></span></p>
+		  <p>GPS Accuracy: <span id="error"></span><span id="errorunit"> metres</span></p>
+		  <p>Hill Adjusted Distance: <span id="hilldistance"></span><span id="hillunit"></span></p>
+		  <p id="appinfo" class="details"><span>This app can be re-used under the terms of the <a href="http://www.gnu.org/licenses/gpl-3.0.html" rel="license">GNU GPL v3.0</a>.  If you want to contact the developer, you can do so through this web page: <a href="http://paul-lockett.co.uk/contact.php">http://paul-lockett.co.uk/contact.php</a>.</span></p>
+		</div>
+		<script defer src="components/jquery/dist/jquery.min.js"></script>
+		<script defer src="scripts/main.js"></script>
+	</body>
+</html>
