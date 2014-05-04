@@ -12,6 +12,9 @@
     "name": "developingo",
     "url": "https://github.com/developingo"
   },
-  "default_locale": "es"
+  "default_locale": "es",
+  "permissions": {
+      "desktop-notification":{}
+  }
 }
 

@@ -51,10 +51,8 @@
 			}
 		},
 		onUpdateReady : function(){
-			document
-				.getElementById('updateholder')
-				.innerHTML = 'There is a new version of this app available'+
-					'. It will be loaded when you refresh the page.';
+			$('#updateholder').html('There is a new version of this app available'+
+					'. It will be loaded when you refresh the page.');
 			$('#updateholder').removeClass();
 		},
 		clicklistener : function(el, fn){
@@ -201,9 +199,9 @@
 				plRun.gpxoutput += '<time>' + plRun.gpxData[x][2] + '</time></trkpt>';
 			}
 			plRun.gpxoutput += '</trkseg></trk></gpx>';
-			$('#boxwrapper').innerHTML = '<div class="formholder"><p id="linkholder"></p><form><textarea id="gpxbox" readonly="" rows="8"></textarea></form></div>';
-			$('#gpxbox').value = plRun.gpxoutput;
-			$('#linkholder').innerHTML = 'To save the GPX data, either copy the data in the box, or <a href="mailto:?body=' + encodeURIComponent(plRun.gpxoutput) + '">click here to e-mail it</a>.';
+			$('#boxwrapper').html('<div class="formholder"><p id="linkholder"></p><form><textarea id="gpxbox" readonly="" rows="8"></textarea></form></div>');
+			$('#gpxbox').val(plRun.gpxoutput);
+			$('#linkholder').html('To save the GPX data, either copy the data in the box, or <a href="mailto:?body=' + encodeURIComponent(plRun.gpxoutput) + '">click here to e-mail it</a>.');
 			$('#updateholder').html('');
 			$('#updateholder').addClass('hidden');
 			$('#gpxbox').focus();
@@ -213,55 +211,55 @@
 			var latnew = position.coords.latitude;
 			var lonnew = position.coords.longitude;
 			var timenew = position.timestamp;
-			$('#error').innerHTML = position.coords.accuracy;
+			$('#error').html(position.coords.accuracy);
 			if(position.coords.accuracy <= plRun.minrecordingaccuracy && timenew > plRun.recclicked){
 				if(position.coords.speed){
-				  if(plRun.paceorspeed == 'pace'){
-					var currentPace = plRun.pace[plRun.unit] / position.coords.speed; //converts metres per second to minutes per mile or minutes per km
-					$('#speed').innerHTML = Math.floor(currentPace) + ':' + ('0' + Math.floor((currentPace % 1)*60)).slice(-2);
-				  }
+					if(plRun.paceorspeed == 'pace'){
+						var currentPace = plRun.pace[plRun.unit] / position.coords.speed; //converts metres per second to minutes per mile or minutes per km
+						$('#speed').html(Math.floor(currentPace) + ':' + ('0' + Math.floor((currentPace % 1)*60)).slice(-2));
+					}
 				}
 				if(plRun.latold != 'x' && plRun.lonold != 'x'){
-				  var elapsed = timenew - plRun.firsttime;
-				  var hour = Math.floor(elapsed/3600000);
-				  var minute = ('0' + (Math.floor(elapsed/60000) - hour*60)).slice(-2);
-				  var second = ('0' + Math.floor((elapsed % 60000)/1000)).slice(-2);
-				  $('#time').innerHTML = hour + ':' + minute + ':' + second;
-				  if(timenew - plRun.lastdisptime >= plRun.minrecordinggap){
+					var elapsed = timenew - plRun.firsttime;
+					var hour = Math.floor(elapsed/3600000);
+					var minute = ('0' + (Math.floor(elapsed/60000) - hour*60)).slice(-2);
+					var second = ('0' + Math.floor((elapsed % 60000)/1000)).slice(-2);
+					$('#time').html(hour + ':' + minute + ':' + second);
+						if(timenew - plRun.lastdisptime >= plRun.minrecordinggap){
+						plRun.lastdisptime = timenew;
+						var x = plRun.toRad(lonnew - plRun.lonold) * Math.cos(plRun.toRad(plRun.latold + latnew)/2);
+						var y = plRun.toRad(latnew - plRun.latold);
+						var e = Math.sqrt(x*x + y*y) * plRun.radius[plRun.unit];
+						plRun.equirect += e;
+						$('#flatdistance').html(plRun.equirect.toFixed(3));
+						if(typeof(position.coords.altitude) == 'number'){
+						  var altnew = position.coords.altitude;
+						  if(plRun.altold != 'x'){
+							var elechange = (altnew - plRun.altold)/plRun.tounit[plRun.unit]; //converts metres to miles or km
+							plRun.eledist += (Math.sqrt((e*e) + (elechange*elechange)));
+						  }else{
+							plRun.eledist += e;
+						  }
+						  plRun.altold = altnew;
+						}else{
+						  plRun.eledist += e;
+						}
+						$('#hilldistance').html(plRun.eledist.toFixed(3));
+						if(plRun.equirect > 0){
+						  var averagePace = elapsed / (plRun.equirect * 60000);
+						  $('#avpace').html(Math.floor(averagePace) + ':' + ('0' + Math.floor((averagePace % 1)*60)).slice(-2));
+						}
+						plRun.latold = latnew;
+						plRun.lonold = lonnew;
+					}
+				}else{
+					plRun.firsttime = timenew;
 					plRun.lastdisptime = timenew;
-					var x = plRun.toRad(lonnew - plRun.lonold) * Math.cos(plRun.toRad(plRun.latold + latnew)/2);
-					var y = plRun.toRad(latnew - plRun.latold);
-					var e = Math.sqrt(x*x + y*y) * plRun.radius[plRun.unit];
-					plRun.equirect += e;
-					$('#flatdistance').innerHTML = plRun.equirect.toFixed(3);
-					if(typeof(position.coords.altitude) == 'number'){
-					  var altnew = position.coords.altitude;
-					  if(plRun.altold != 'x'){
-						var elechange = (altnew - plRun.altold)/plRun.tounit[plRun.unit]; //converts metres to miles or km
-						plRun.eledist += (Math.sqrt((e*e) + (elechange*elechange)));
-					  }else{
-						plRun.eledist += e;
-					  }
-					  plRun.altold = altnew;
-					}else{
-					  plRun.eledist += e;
-					}
-					$('#hilldistance').innerHTML = plRun.eledist.toFixed(3);
-					if(plRun.equirect > 0){
-					  var averagePace = elapsed / (plRun.equirect * 60000);
-					  $('#avpace').innerHTML = Math.floor(averagePace) + ':' + ('0' + Math.floor((averagePace % 1)*60)).slice(-2);
-					}
 					plRun.latold = latnew;
 					plRun.lonold = lonnew;
-				  }
-				}else{
-				  plRun.firsttime = timenew;
-				  plRun.lastdisptime = timenew;
-				  plRun.latold = latnew;
-				  plRun.lonold = lonnew;
-				  $('#time').innerHTML = '0:00:00';
-				  $('#hilldistance').innerHTML = '0'
-				  $('#flatdistance').innerHTML = plRun.equirect.toFixed(3);
+					$('#time').html('0:00:00');
+					$('#hilldistance').html('0');
+					$('#flatdistance').html(plRun.equirect.toFixed(3));
 				}
 				if(timenew - plRun.lastrecordtime >= plRun.minrecordinggap){
 				  var pointData = [latnew.toFixed(6),lonnew.toFixed(6),((new Date(timenew)).toISOString()).replace(/\.\d\d\d/, '')]
@@ -279,10 +277,10 @@
 			alert('error obtaining location');
 		},
 		setup : function(){
-			$('#flatunit').innerHTML = plRun.distancelabel[plRun.unit];
-			$('#paceunit').innerHTML = plRun.pacelabel[plRun.unit];
-			$('#speedunit').innerHTML = plRun.pacelabel[plRun.unit];
-			$('#hillunit').innerHTML = plRun.distancelabel[plRun.unit];
+			$('#flatunit').html(plRun.distancelabel[plRun.unit]);
+			$('#paceunit').html(plRun.pacelabel[plRun.unit]);
+			$('#speedunit').html(plRun.pacelabel[plRun.unit]);
+			$('#hillunit').html(plRun.distancelabel[plRun.unit]);
 		},
 		init : function(){
 			plRun.haslocalstorage = plRun.localstoragetest();
