@@ -55,7 +55,7 @@
 				.getElementById('updateholder')
 				.innerHTML = 'There is a new version of this app available'+
 					'. It will be loaded when you refresh the page.';
-			document.getElementById('updateholder').className = '';
+			$('#updateholder').removeClass();
 		},
 		clicklistener : function(el, fn){
 			try{
@@ -84,19 +84,19 @@
 		recbuttonclicked : function(event){
 			if(navigator.geolocation){
 				plRun.recclicked = (new Date()).getTime();
-				document.getElementById('topbar').className = 'hidden';
-				document.getElementById('appinfo').className = 'hidden';
-				document.getElementById('recordbutton').className = 'hidden';
-				document.getElementById('settingsbutton').className = 'hidden';
-				document.getElementById('stopbutton').className = '';
-				document.getElementById('exportbutton').className='hidden';
-				document.getElementById('boxwrapper').innerHTML = '';
-				document.getElementById('time').innerHTML = '';
-				document.getElementById('hilldistance').innerHTML = '';
-				document.getElementById('avpace').innerHTML = '';
-				document.getElementById('speed').innerHTML = '';
-				document.getElementById('flatdistance').innerHTML = '';
-				document.getElementById('error').innerHTML = '';
+				$('#topbar').addClass('hidden');
+				$('#appinfo').addClass('hidden');
+				$('#recordbutton').addClass('hidden');
+				$('#settingsbutton').addClass('hidden');
+				$('#stopbutton').removeClass();
+				$('#exportbutton').addClass('hidden');
+				$('#boxwrapper').html('');
+				$('#time').html('');
+				$('#hilldistance').html('');
+				$('#avpace').html('');
+				$('#speed').html('');
+				$('#flatdistance').html('');
+				$('#error').html('');
 				plRun.gpxData = [];
 				plRun.lastrecordtime = 0;
 				plRun.firsttime = 0;
@@ -122,55 +122,54 @@
 			}
 		},
 		stopbuttonclicked : function(){
-			document.getElementById('stopbutton').className = 'hidden';
+			$('#stopbutton').addClass('hidden');
 			navigator.geolocation.clearWatch(plRun.watchId);
 			window.setTimeout(plRun.saveGpx,100);
-			document.getElementById('topbar').className = '';
-			document.getElementById('appinfo').className = 'details';
-			document.getElementById('recordbutton').className = '';
-			document.getElementById('settingsbutton').className = '';
-			document.getElementById('exportbutton').className='';
-			document.getElementById('speed').innerHTML = '';
-			document.getElementById('error').innerHTML = '';
+			$('#topbar').removeClass();
+			$('#appinfo').addClass('details');
+			$('#recordbutton').removeClass();
+			$('#settingsbutton').removeClass();
+			$('#exportbutton').removeClass();
+			$('#speed').html('');
+			$('#error').html('');
 		},
 		exportbuttonclicked : function(){
 			window.setTimeout(plRun.producegpx,100);
-			document.getElementById('exportbutton').className='hidden';
-			document.getElementById('updateholder')
-				.innerHTML = 'The GPX data is being processed...';
-			document.getElementById('updateholder').className='';
+			$('#exportbutton').addClass('hidden');
+			$('#updateholder').html('The GPX data is being processed...');
+			$('#updateholder').removeClass();
 		},
 		settingsbuttonclicked : function(){
-			document.getElementById('accchoice').value = plRun.minrecordingaccuracy;
-			document.getElementById('gapchoice').value = plRun.minrecordinggap/1000;
-			document.getElementById('unitchoice').value = plRun.unit;
-			document.getElementById('settingsbutton').className='hidden';
-			document.getElementById('infoholder').className='hidden';
-			document.getElementById('settingsholder').className='';
+			$('#accchoice').val(plRun.minrecordingaccuracy);
+			$('#gapchoice').val(plRun.minrecordinggap/1000);
+			$('#unitchoice').val(plRun.unit);
+			$('#settingsbutton').addClass('hidden');
+			$('#infoholder').addClass('hidden');
+			$('#settingsholder').removeClass();
 		},
 		settingssavebuttonclicked : function(){
-			document.getElementById('settingsbutton').className='';
-			document.getElementById('infoholder').className='';
-			document.getElementById('settingsholder').className='hidden';
-			if(document.getElementById('accchoice').value.match(plRun.numericExpression)){
-				plRun.minrecordingaccuracy = (document.getElementById('accchoice').value);
+			$('#settingsbutton').removeClass();
+			$('#infoholder').removeClass();
+			$('#settingsholder').addClass('hidden');
+			if($('#accchoice').val().match(plRun.numericExpression)){
+				plRun.minrecordingaccuracy = ($('#accchoice').val());
 				if(plRun.haslocalstorage){
 					localStorage.setItem('plRunSettingsAcc', plRun.minrecordingaccuracy);
 				}
 			}else{
 				alert('The minimum gps accuracy must be a positive whole number');
 			}
-			if(document.getElementById('gapchoice').value.match(plRun.numericExpression)){
-				plRun.minrecordinggap = (document.getElementById('gapchoice').value * 1000);
+			if($('#gapchoice').val().match(plRun.numericExpression)){
+				plRun.minrecordinggap = ($('#gapchoice').val() * 1000);
 				if(plRun.haslocalstorage){
 					localStorage.setItem('plRunSettingsGap', plRun.minrecordinggap);
 				}
 			}else{
 				alert('The minimum time gap must be a positive whole number');
 			}
-			if(document.getElementById('unitchoice').value == 'kms'
-				|| document.getElementById('unitchoice').value == 'miles'){
-				plRun.unit = (document.getElementById('unitchoice').value);
+			if($('#unitchoice').val() == 'kms'
+				|| $('#unitchoice').val() == 'miles'){
+				plRun.unit = ($('#unitchoice').val());
 				if(plRun.haslocalstorage){
 					localStorage.setItem('plRunSettingsUnit', plRun.unit);
 				}
@@ -180,9 +179,9 @@
 		plRun.setup();
 		},
 		settingscancelbuttonclicked : function(){
-			document.getElementById('settingsbutton').className='';
-			document.getElementById('infoholder').className='';
-			document.getElementById('settingsholder').className='hidden';
+			$('#settingsbutton').removeClass();
+			$('#infoholder').removeClass();
+			$('#settingsholder').addClass('hidden');
 		},
 		producegpx : function(){
 			if(!plRun.hasOwnProperty('gpxData')  && plRun.haslocalstorage){
@@ -193,33 +192,33 @@
 					}
 				}
 			}
-			plRun.gpxoutput = '<?xml version='1.0' encoding='UTF-8' ?><gpx xmlns='http://www.topografix.com/GPX/1/1' creator='http://paul-lockett.co.uk/runrecorder' version='1.1'><trk><trkseg>';
+			plRun.gpxoutput = '<?xml version="1.0" encoding="UTF-8" ?><gpx xmlns="http://www.topografix.com/GPX/1/1" creator="http://paul-lockett.co.uk/runrecorder" version="1.1"><trk><trkseg>';
 			for (var x=0; x<plRun.gpxData.length; x++) {
-				plRun.gpxoutput += '<trkpt lat='' + plRun.gpxData[x][0] + '' lon='' + plRun.gpxData[x][1] + ''>';
+				plRun.gpxoutput += '<trkpt lat="' + plRun.gpxData[x][0] + '" lon="' + plRun.gpxData[x][1] + '">';
 				if(plRun.gpxData[x][3] != 'x'){
 				  plRun.gpxoutput += '<ele>' + plRun.gpxData[x][3] + '</ele>';
 				}
 				plRun.gpxoutput += '<time>' + plRun.gpxData[x][2] + '</time></trkpt>';
 			}
 			plRun.gpxoutput += '</trkseg></trk></gpx>';
-			document.getElementById('boxwrapper').innerHTML = '<div class='formholder'><p id='linkholder'></p><form><textarea id='gpxbox' readonly='readonly' rows='8'></textarea></form></div>';
-			document.getElementById('gpxbox').value = plRun.gpxoutput;
-			document.getElementById('linkholder').innerHTML = 'To save the GPX data, either copy the data in the box, or <a href='mailto:?body=' + encodeURIComponent(plRun.gpxoutput) + ''>click here to e-mail it</a>.';
-			document.getElementById('updateholder').innerHTML = '';
-			document.getElementById('updateholder').className='hidden';
-			document.getElementById('gpxbox').focus();
-			document.getElementById('gpxbox').select();
+			$('#boxwrapper').innerHTML = '<div class="formholder"><p id="linkholder"></p><form><textarea id="gpxbox" readonly="" rows="8"></textarea></form></div>';
+			$('#gpxbox').value = plRun.gpxoutput;
+			$('#linkholder').innerHTML = 'To save the GPX data, either copy the data in the box, or <a href="mailto:?body=' + encodeURIComponent(plRun.gpxoutput) + '">click here to e-mail it</a>.';
+			$('#updateholder').html('');
+			$('#updateholder').addClass('hidden');
+			$('#gpxbox').focus();
+			$('#gpxbox').select();
 		},
 		ongoingposition : function(position){
 			var latnew = position.coords.latitude;
 			var lonnew = position.coords.longitude;
 			var timenew = position.timestamp;
-			document.getElementById('error').innerHTML = position.coords.accuracy;
+			$('#error').innerHTML = position.coords.accuracy;
 			if(position.coords.accuracy <= plRun.minrecordingaccuracy && timenew > plRun.recclicked){
 				if(position.coords.speed){
 				  if(plRun.paceorspeed == 'pace'){
 					var currentPace = plRun.pace[plRun.unit] / position.coords.speed; //converts metres per second to minutes per mile or minutes per km
-					document.getElementById('speed').innerHTML = Math.floor(currentPace) + ':' + ('0' + Math.floor((currentPace % 1)*60)).slice(-2);
+					$('#speed').innerHTML = Math.floor(currentPace) + ':' + ('0' + Math.floor((currentPace % 1)*60)).slice(-2);
 				  }
 				}
 				if(plRun.latold != 'x' && plRun.lonold != 'x'){
@@ -227,14 +226,14 @@
 				  var hour = Math.floor(elapsed/3600000);
 				  var minute = ('0' + (Math.floor(elapsed/60000) - hour*60)).slice(-2);
 				  var second = ('0' + Math.floor((elapsed % 60000)/1000)).slice(-2);
-				  document.getElementById('time').innerHTML = hour + ':' + minute + ':' + second;
+				  $('#time').innerHTML = hour + ':' + minute + ':' + second;
 				  if(timenew - plRun.lastdisptime >= plRun.minrecordinggap){
 					plRun.lastdisptime = timenew;
 					var x = plRun.toRad(lonnew - plRun.lonold) * Math.cos(plRun.toRad(plRun.latold + latnew)/2);
 					var y = plRun.toRad(latnew - plRun.latold);
 					var e = Math.sqrt(x*x + y*y) * plRun.radius[plRun.unit];
 					plRun.equirect += e;
-					document.getElementById('flatdistance').innerHTML = plRun.equirect.toFixed(3);
+					$('#flatdistance').innerHTML = plRun.equirect.toFixed(3);
 					if(typeof(position.coords.altitude) == 'number'){
 					  var altnew = position.coords.altitude;
 					  if(plRun.altold != 'x'){
@@ -247,10 +246,10 @@
 					}else{
 					  plRun.eledist += e;
 					}
-					document.getElementById('hilldistance').innerHTML = plRun.eledist.toFixed(3);
+					$('#hilldistance').innerHTML = plRun.eledist.toFixed(3);
 					if(plRun.equirect > 0){
 					  var averagePace = elapsed / (plRun.equirect * 60000);
-					  document.getElementById('avpace').innerHTML = Math.floor(averagePace) + ':' + ('0' + Math.floor((averagePace % 1)*60)).slice(-2);
+					  $('#avpace').innerHTML = Math.floor(averagePace) + ':' + ('0' + Math.floor((averagePace % 1)*60)).slice(-2);
 					}
 					plRun.latold = latnew;
 					plRun.lonold = lonnew;
@@ -260,9 +259,9 @@
 				  plRun.lastdisptime = timenew;
 				  plRun.latold = latnew;
 				  plRun.lonold = lonnew;
-				  document.getElementById('time').innerHTML = '0:00:00';
-				  document.getElementById('hilldistance').innerHTML = '0'
-				  document.getElementById('flatdistance').innerHTML = plRun.equirect.toFixed(3);
+				  $('#time').innerHTML = '0:00:00';
+				  $('#hilldistance').innerHTML = '0'
+				  $('#flatdistance').innerHTML = plRun.equirect.toFixed(3);
 				}
 				if(timenew - plRun.lastrecordtime >= plRun.minrecordinggap){
 				  var pointData = [latnew.toFixed(6),lonnew.toFixed(6),((new Date(timenew)).toISOString()).replace(/\.\d\d\d/, '')]
@@ -280,10 +279,10 @@
 			alert('error obtaining location');
 		},
 		setup : function(){
-			document.getElementById('flatunit').innerHTML = plRun.distancelabel[plRun.unit];
-			document.getElementById('paceunit').innerHTML = plRun.pacelabel[plRun.unit];
-			document.getElementById('speedunit').innerHTML = plRun.pacelabel[plRun.unit];
-			document.getElementById('hillunit').innerHTML = plRun.distancelabel[plRun.unit];
+			$('#flatunit').innerHTML = plRun.distancelabel[plRun.unit];
+			$('#paceunit').innerHTML = plRun.pacelabel[plRun.unit];
+			$('#speedunit').innerHTML = plRun.pacelabel[plRun.unit];
+			$('#hillunit').innerHTML = plRun.distancelabel[plRun.unit];
 		},
 		init : function(){
 			plRun.haslocalstorage = plRun.localstoragetest();
@@ -310,11 +309,11 @@
 			plRun.clicklistener('settingscancelbutton', plRun.settingscancelbuttonclicked);
 			if(plRun.haslocalstorage){
 				if(typeof(localStorage.plRunGpxData) == 'string'){
-					document.getElementById('exportbutton').className='';
+					$('#exportbutton').removeClass();
 				}
 			}
-			document.getElementById('recordbutton').className='';
-			document.getElementById('settingsbutton').className='';
+			$('#recordbutton').removeClass();
+			$('#settingsbutton').removeClass();
 			plRun.setup();
 		}
 	}
